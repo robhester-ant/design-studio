@@ -1,4 +1,4 @@
-# Design Studio
+# go/robo-design
 
 A design system studio where you collaborate with Claude AI to create, refine, and export UI themes. **No npm required** - just open `index.html` in your browser.
 
@@ -75,7 +75,7 @@ design-studio/
 
 2. **Create Apps Script project:**
    ```bash
-   clasp create --title "Design Studio" --type standalone
+   clasp create --title "go/robo-design" --type standalone
    ```
    This updates `.clasp.json` with your script ID.
 

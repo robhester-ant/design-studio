@@ -1,4 +1,4 @@
-# Design Studio - Claude Code Instructions
+# go/robo-design - Claude Code Instructions
 
 ## Environment Constraints
 
