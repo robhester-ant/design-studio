@@ -180,7 +180,7 @@ ${activeTheme.componentStyles}`;
           'anthropic-dangerous-direct-browser-access': 'true'
         },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-sonnet-4-20250514', // Claude Sonnet 4 - fast and capable for design tasks
           max_tokens: 4096,
           system: `${this.SYSTEM_PROMPT}\n\nCURRENT DESIGN SYSTEM CONTEXT:\n${contextString}`,
           messages: apiMessages

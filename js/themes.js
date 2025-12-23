@@ -176,22 +176,33 @@ const ThemeStore = {
 
   init() {
     this.load();
-    if (this.themes.length === 0) {
-      // Load default themes
-      this.themes = DEFAULT_THEMES.map(theme => {
-        const now = new Date().toISOString();
-        return {
-          ...theme,
-          createdAt: now,
-          updatedAt: now,
-          cssVariables: this.generateCssVariables(theme.tokens),
-          componentStyles: this.generateComponentStyles(),
-          version: 1
-        };
-      });
-      this.activeThemeId = this.themes[0].id;
+
+    // Always ensure default themes exist
+    const defaultIds = DEFAULT_THEMES.map(t => t.id);
+    const hasAllDefaults = defaultIds.every(id => this.themes.some(t => t.id === id));
+
+    if (!hasAllDefaults) {
+      // Add missing default themes
+      const now = new Date().toISOString();
+      for (const defaultTheme of DEFAULT_THEMES) {
+        if (!this.themes.some(t => t.id === defaultTheme.id)) {
+          this.themes.unshift({
+            ...defaultTheme,
+            createdAt: now,
+            updatedAt: now,
+            cssVariables: this.generateCssVariables(defaultTheme.tokens),
+            componentStyles: this.generateComponentStyles(),
+            version: 1
+          });
+        }
+      }
+      // Set active theme if none selected
+      if (!this.activeThemeId || !this.themes.some(t => t.id === this.activeThemeId)) {
+        this.activeThemeId = this.themes[0].id;
+      }
       this.save();
     }
+
     this.notify();
   },
 
