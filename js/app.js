@@ -328,9 +328,26 @@ const App = {
       emptyState.style.display = 'block';
       if (!state.hasApiKey) {
         emptyState.innerHTML = `
-          <p>API Key Required</p>
-          <p class="text-muted">Click the key icon above to add your Anthropic API key.</p>
+          <div style="padding: 32px 16px; text-align: center;">
+            <div style="width: 64px; height: 64px; margin: 0 auto 16px; background: var(--color-border-light); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
+                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+              </svg>
+            </div>
+            <h3 style="margin: 0 0 8px; font-size: 18px;">Connect to Claude</h3>
+            <p style="color: var(--color-text-muted); margin: 0 0 20px; font-size: 14px;">Add your Anthropic API key to chat with Claude about your designs.</p>
+            <button id="setup-api-key-btn" class="btn btn-primary" style="width: 100%;">
+              Set Up API Key
+            </button>
+            <p style="color: var(--color-text-muted); margin: 16px 0 0; font-size: 12px;">
+              Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color: var(--color-primary);">console.anthropic.com</a>
+            </p>
+          </div>
         `;
+        // Add click handler for setup button
+        document.getElementById('setup-api-key-btn')?.addEventListener('click', () => {
+          document.getElementById('api-key-modal').showModal();
+        });
       } else {
         emptyState.innerHTML = `
           <p>Start a conversation with Claude</p>
