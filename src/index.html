@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Design Studio</title>
+  <title>go/robo-design</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -853,12 +853,6 @@ body {
   <input type="file" id="file-input" accept="image/*" multiple hidden>
 
   <!-- App Scripts -->
-  <script src="js/themes.js"></script>
-  <script src="js/claude.js"></script>
-  <script src="js/preview.js"></script>
-  <script src="js/app.js"></script>
-  <!-- Monaco Editor from CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
   <script>
 // Theme Store - Manages design system themes
 
@@ -1037,13 +1031,17 @@ const ThemeStore = {
   listeners: [],
 
   init() {
+    console.log('[ThemeStore] Initializing...');
     this.load();
+    console.log('[ThemeStore] Loaded themes:', this.themes.length);
 
     // Always ensure default themes exist
     const defaultIds = DEFAULT_THEMES.map(t => t.id);
     const hasAllDefaults = defaultIds.every(id => this.themes.some(t => t.id === id));
+    console.log('[ThemeStore] Has all defaults:', hasAllDefaults);
 
     if (!hasAllDefaults) {
+      console.log('[ThemeStore] Adding default themes...');
       // Add missing default themes
       const now = new Date().toISOString();
       for (const defaultTheme of DEFAULT_THEMES) {
@@ -1063,8 +1061,10 @@ const ThemeStore = {
         this.activeThemeId = this.themes[0].id;
       }
       this.save();
+      console.log('[ThemeStore] Saved', this.themes.length, 'themes');
     }
 
+    console.log('[ThemeStore] Final state:', this.themes.length, 'themes, active:', this.activeThemeId);
     this.notify();
   },
 
@@ -1540,143 +1540,6 @@ ${activeTheme.componentStyles}`;
   }
 };
 
-// Monaco Editor Integration
-
-const EditorManager = {
-  editor: null,
-  currentTab: 'variables',
-  listeners: [],
-
-  async init() {
-    // Configure Monaco loader
-    require.config({
-      paths: {
-        'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs'
-      }
-    });
-
-    // Load Monaco
-    return new Promise((resolve) => {
-      require(['vs/editor/editor.main'], () => {
-        this.createEditor();
-        resolve();
-      });
-    });
-  },
-
-  createEditor() {
-    const container = document.getElementById('editor-container');
-    if (!container) return;
-
-    this.editor = monaco.editor.create(container, {
-      value: this.getContent(),
-      language: this.getLanguage(),
-      theme: 'vs-dark',
-      minimap: { enabled: false },
-      fontSize: 13,
-      lineNumbers: 'on',
-      wordWrap: 'on',
-      automaticLayout: true,
-      padding: { top: 8 },
-      scrollBeyondLastLine: false,
-      tabSize: 2
-    });
-
-    // Handle content changes
-    this.editor.onDidChangeModelContent(() => {
-      this.handleContentChange();
-    });
-
-    // Subscribe to theme changes
-    ThemeStore.subscribe(() => {
-      this.updateContent();
-    });
-  },
-
-  getContent() {
-    const theme = ThemeStore.getActiveTheme();
-    if (!theme) return '// No theme selected';
-
-    switch (this.currentTab) {
-      case 'tokens':
-        return JSON.stringify(theme.tokens, null, 2);
-      case 'variables':
-        return theme.cssVariables;
-      case 'components':
-        return theme.componentStyles;
-      default:
-        return '';
-    }
-  },
-
-  getLanguage() {
-    switch (this.currentTab) {
-      case 'tokens':
-        return 'json';
-      case 'variables':
-      case 'components':
-        return 'css';
-      default:
-        return 'plaintext';
-    }
-  },
-
-  setTab(tab) {
-    if (this.currentTab === tab) return;
-    this.currentTab = tab;
-    this.updateContent();
-  },
-
-  updateContent() {
-    if (!this.editor) return;
-
-    const content = this.getContent();
-    const model = this.editor.getModel();
-
-    if (model.getValue() !== content) {
-      model.setValue(content);
-    }
-
-    monaco.editor.setModelLanguage(model, this.getLanguage());
-  },
-
-  handleContentChange() {
-    const theme = ThemeStore.getActiveTheme();
-    if (!theme) return;
-
-    const value = this.editor.getValue();
-
-    switch (this.currentTab) {
-      case 'tokens':
-        try {
-          const tokens = JSON.parse(value);
-          ThemeStore.updateTheme(theme.id, { tokens });
-        } catch (e) {
-          // Invalid JSON, don't update
-        }
-        break;
-      case 'variables':
-        ThemeStore.updateTheme(theme.id, { cssVariables: value });
-        break;
-      case 'components':
-        ThemeStore.updateTheme(theme.id, { componentStyles: value });
-        break;
-    }
-  },
-
-  setTheme(themeName) {
-    if (this.editor) {
-      monaco.editor.setTheme(themeName);
-    }
-  },
-
-  resize() {
-    if (this.editor) {
-      this.editor.layout();
-    }
-  }
-};
-
 // Preview Panel Manager
 
 const PreviewManager = {
@@ -1843,12 +1706,15 @@ const App = {
   attachments: [],
 
   async init() {
+    console.log('[App] Initializing...');
+
     // Initialize stores
     ThemeStore.init();
     ClaudeAPI.init();
 
     // Initialize preview
     PreviewManager.init();
+    console.log('[App] All modules initialized');
 
     // Set up UI event listeners
     this.setupEventListeners();

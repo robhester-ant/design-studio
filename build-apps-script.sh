@@ -13,7 +13,7 @@ cat > "$OUTPUT" << 'HTMLHEAD'
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Design Studio</title>
+  <title>go/robo-design</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -30,21 +30,18 @@ cat >> "$OUTPUT" << 'HTMLBODY'
 HTMLBODY
 
 # Extract body content from index.html (between <body> and </body>)
-sed -n '/<body>/,/<\/body>/p' index.html | sed '1d;$d' >> "$OUTPUT"
+# Filter out external script tags (they're for local dev only)
+sed -n '/<body>/,/<\/body>/p' index.html | sed '1d;$d' | grep -v '<script src="js/' >> "$OUTPUT"
 
-# Add Monaco CDN and scripts
+# Add inline scripts
 cat >> "$OUTPUT" << 'HTMLSCRIPTS'
-  <!-- Monaco Editor from CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
   <script>
 HTMLSCRIPTS
 
-# Append all JS files
+# Append all JS files inline
 cat js/themes.js >> "$OUTPUT"
 echo "" >> "$OUTPUT"
 cat js/claude.js >> "$OUTPUT"
-echo "" >> "$OUTPUT"
-cat js/editor.js >> "$OUTPUT"
 echo "" >> "$OUTPUT"
 cat js/preview.js >> "$OUTPUT"
 echo "" >> "$OUTPUT"

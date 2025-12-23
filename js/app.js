@@ -4,12 +4,15 @@ const App = {
   attachments: [],
 
   async init() {
+    console.log('[App] Initializing...');
+
     // Initialize stores
     ThemeStore.init();
     ClaudeAPI.init();
 
     // Initialize preview
     PreviewManager.init();
+    console.log('[App] All modules initialized');
 
     // Set up UI event listeners
     this.setupEventListeners();

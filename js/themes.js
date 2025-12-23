@@ -175,13 +175,17 @@ const ThemeStore = {
   listeners: [],
 
   init() {
+    console.log('[ThemeStore] Initializing...');
     this.load();
+    console.log('[ThemeStore] Loaded themes:', this.themes.length);
 
     // Always ensure default themes exist
     const defaultIds = DEFAULT_THEMES.map(t => t.id);
     const hasAllDefaults = defaultIds.every(id => this.themes.some(t => t.id === id));
+    console.log('[ThemeStore] Has all defaults:', hasAllDefaults);
 
     if (!hasAllDefaults) {
+      console.log('[ThemeStore] Adding default themes...');
       // Add missing default themes
       const now = new Date().toISOString();
       for (const defaultTheme of DEFAULT_THEMES) {
@@ -201,8 +205,10 @@ const ThemeStore = {
         this.activeThemeId = this.themes[0].id;
       }
       this.save();
+      console.log('[ThemeStore] Saved', this.themes.length, 'themes');
     }
 
+    console.log('[ThemeStore] Final state:', this.themes.length, 'themes, active:', this.activeThemeId);
     this.notify();
   },
 
