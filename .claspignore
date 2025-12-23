@@ -1,7 +1,4 @@
-**/**
-!src/**
-.git/**
+# Clasp ignores files relative to rootDir (src/)
+# Keep everything in src/
 node_modules/**
-css/**
-js/**
-static-reference/**
+.git/**

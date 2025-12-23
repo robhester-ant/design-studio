@@ -36,4 +36,4 @@ jobs:
         run: clasp push --force
 
       - name: Deploy (update existing deployment)
-        run: clasp deploy -i ${{ secrets.DEPLOYMENT_ID }} --description "Deploy ${{ github.sha }}"
+        run: clasp update-deployment ${{ secrets.DEPLOYMENT_ID }} --description "Deploy ${{ github.sha }}"
