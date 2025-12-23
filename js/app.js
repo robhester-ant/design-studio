@@ -8,9 +8,6 @@ const App = {
     ThemeStore.init();
     ClaudeAPI.init();
 
-    // Initialize editor
-    await EditorManager.init();
-
     // Initialize preview
     PreviewManager.init();
 
@@ -37,15 +34,6 @@ const App = {
 
     document.getElementById('theme-search').addEventListener('input', (e) => {
       this.filterThemes(e.target.value);
-    });
-
-    // Editor tabs
-    document.querySelectorAll('.panel-tabs .tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.panel-tabs .tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        EditorManager.setTab(tab.dataset.tab);
-      });
     });
 
     // Preview tabs
@@ -83,19 +71,6 @@ const App = {
     document.getElementById('api-key-clear').addEventListener('click', () => {
       ClaudeAPI.setApiKey(null);
       document.getElementById('api-key-modal').close();
-    });
-
-    // Settings modal
-    document.getElementById('settings-btn').addEventListener('click', () => {
-      document.getElementById('settings-modal').showModal();
-    });
-
-    document.getElementById('settings-close').addEventListener('click', () => {
-      document.getElementById('settings-modal').close();
-    });
-
-    document.getElementById('editor-theme').addEventListener('change', (e) => {
-      EditorManager.setTheme(e.target.value);
     });
 
     // Chat
@@ -189,8 +164,6 @@ const App = {
   setupResizeHandles() {
     const sidebar = document.getElementById('sidebar');
     const chatPanel = document.getElementById('chat-panel');
-    const editorPanel = document.getElementById('editor-panel');
-    const previewPanel = document.getElementById('preview-panel');
 
     // Sidebar resize
     this.makeResizable(
@@ -199,7 +172,6 @@ const App = {
         const newWidth = sidebar.offsetWidth + delta;
         if (newWidth >= 150 && newWidth <= 350) {
           sidebar.style.width = newWidth + 'px';
-          EditorManager.resize();
         }
       }
     );
@@ -211,27 +183,8 @@ const App = {
         const newWidth = chatPanel.offsetWidth - delta;
         if (newWidth >= 250 && newWidth <= 500) {
           chatPanel.style.width = newWidth + 'px';
-          EditorManager.resize();
         }
       }
-    );
-
-    // Editor/Preview resize
-    this.makeResizable(
-      document.getElementById('editor-resize'),
-      (delta) => {
-        const container = document.querySelector('.center-panel');
-        const totalHeight = container.offsetHeight - 4; // subtract handle height
-        const editorHeight = editorPanel.offsetHeight + delta;
-        const editorPercent = (editorHeight / totalHeight) * 100;
-
-        if (editorPercent >= 20 && editorPercent <= 80) {
-          editorPanel.style.flex = `0 0 ${editorPercent}%`;
-          previewPanel.style.flex = `0 0 ${100 - editorPercent}%`;
-          EditorManager.resize();
-        }
-      },
-      true // vertical
     );
   },
 

@@ -1,5 +1,116 @@
 // Theme Store - Manages design system themes
 
+const DEFAULT_THEMES = [
+  {
+    id: 'zed-minimal',
+    name: 'Zed Minimal',
+    description: 'Clean, minimalist design with blue accent',
+    tokens: {
+      colors: {
+        primary: '#0751CF',
+        primaryHover: '#094ACE',
+        secondary: '#6B7280',
+        text: '#4C5461',
+        textSecondary: '#9CA3AF',
+        background: '#FAF9F7',
+        surface: '#FFFFFF',
+        border: '#DEDDD9',
+        borderLight: '#F3F2EE',
+        focus: 'rgba(9, 78, 206, 0.5)',
+        error: '#EF4444',
+        warning: '#F59E0B',
+        success: '#10B981',
+        info: '#3B82F6'
+      },
+      typography: {
+        fontFamilies: {
+          heading: 'Lora, Georgia, serif',
+          body: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+          mono: 'SF Mono, Monaco, Cascadia Code, Consolas, monospace'
+        },
+        fontSizes: {
+          xs: '12px', sm: '14px', base: '16px', lg: '18px', xl: '20px', '2xl': '24px', '3xl': '30px'
+        }
+      },
+      spacing: { '1': '4px', '2': '8px', '3': '12px', '4': '16px', '5': '24px', '6': '32px', '8': '48px' },
+      borderRadius: { none: '0', sm: '2px', md: '4px', lg: '8px', full: '9999px' },
+      shadows: { sm: '0 1px 2px rgba(0, 0, 0, 0.05)', md: '0 4px 6px rgba(0, 0, 0, 0.1)', lg: '0 10px 15px rgba(0, 0, 0, 0.1)' }
+    }
+  },
+  {
+    id: 'ant-farm',
+    name: 'Ant Farm',
+    description: 'Warm corporate design with coral accent',
+    tokens: {
+      colors: {
+        primary: '#D4674A',
+        primaryHover: '#C25A3E',
+        secondary: '#A78BFA',
+        text: '#1A1A1A',
+        textSecondary: '#6B7280',
+        background: '#FFFFFF',
+        surface: '#F9FAFB',
+        border: '#E5E7EB',
+        borderLight: '#F3F4F6',
+        focus: 'rgba(212, 103, 74, 0.4)',
+        error: '#DC2626',
+        warning: '#D97706',
+        success: '#059669',
+        info: '#2563EB'
+      },
+      typography: {
+        fontFamilies: {
+          heading: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+          body: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+          mono: 'SF Mono, Monaco, Consolas, monospace'
+        },
+        fontSizes: {
+          xs: '12px', sm: '14px', base: '16px', lg: '18px', xl: '20px', '2xl': '24px', '3xl': '32px'
+        }
+      },
+      spacing: { '1': '4px', '2': '8px', '3': '12px', '4': '16px', '5': '24px', '6': '32px', '8': '48px' },
+      borderRadius: { none: '0', sm: '4px', md: '8px', lg: '12px', full: '9999px' },
+      shadows: { sm: '0 1px 3px rgba(0, 0, 0, 0.08)', md: '0 4px 8px rgba(0, 0, 0, 0.12)', lg: '0 12px 24px rgba(0, 0, 0, 0.15)' }
+    }
+  },
+  {
+    id: 'dark-mode',
+    name: 'Dark Mode',
+    description: 'Dark theme with blue accent',
+    tokens: {
+      colors: {
+        primary: '#3B82F6',
+        primaryHover: '#2563EB',
+        secondary: '#6B7280',
+        text: '#F3F4F6',
+        textSecondary: '#9CA3AF',
+        background: '#111827',
+        surface: '#1F2937',
+        border: '#374151',
+        borderLight: '#4B5563',
+        focus: 'rgba(59, 130, 246, 0.5)',
+        error: '#F87171',
+        warning: '#FBBF24',
+        success: '#34D399',
+        info: '#60A5FA'
+      },
+      typography: {
+        fontFamilies: {
+          heading: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+          body: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+          mono: 'SF Mono, Monaco, Cascadia Code, Consolas, monospace'
+        },
+        fontSizes: {
+          xs: '12px', sm: '14px', base: '16px', lg: '18px', xl: '20px', '2xl': '24px', '3xl': '30px'
+        }
+      },
+      spacing: { '1': '4px', '2': '8px', '3': '12px', '4': '16px', '5': '24px', '6': '32px', '8': '48px' },
+      borderRadius: { none: '0', sm: '2px', md: '4px', lg: '8px', full: '9999px' },
+      shadows: { sm: '0 1px 2px rgba(0, 0, 0, 0.3)', md: '0 4px 6px rgba(0, 0, 0, 0.4)', lg: '0 10px 15px rgba(0, 0, 0, 0.5)' }
+    }
+  }
+];
+
 const ThemeStore = {
   STORAGE_KEY: 'design-studio:themes',
 
@@ -66,7 +177,20 @@ const ThemeStore = {
   init() {
     this.load();
     if (this.themes.length === 0) {
-      this.createTheme('Default Theme', 'Zed-inspired minimal design');
+      // Load default themes
+      this.themes = DEFAULT_THEMES.map(theme => {
+        const now = new Date().toISOString();
+        return {
+          ...theme,
+          createdAt: now,
+          updatedAt: now,
+          cssVariables: this.generateCssVariables(theme.tokens),
+          componentStyles: this.generateComponentStyles(),
+          version: 1
+        };
+      });
+      this.activeThemeId = this.themes[0].id;
+      this.save();
     }
     this.notify();
   },
