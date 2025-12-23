@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kdiff Design System - Component Reference</title>
+  <link rel="stylesheet" href="kdiff-design-system.css">
+  <style>
+    .component-section {
+      margin-bottom: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .component-example {
+      padding: 24px;
+      background-color: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+    .code-block {
+      background-color: #f5f5f5;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      overflow-x: auto;
+      margin-top: 16px;
+    }
+    h1 {
+      font-size: 48px;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: var(--color-text);
+      font-size: 18px;
+      margin-bottom: 48px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>kdiff Design System</h1>
+    <p class="subtitle">Component Reference & Visual Guide</p>
+
+    <!-- Typography -->
+    <div class="component-section">
+      <h2>Typography</h2>
+      <div class="component-example">
+        <h1>Heading 1 - Page Title</h1>
+        <h2>Heading 2 - Section Title</h2>
+        <h3>Heading 3 - Subsection</h3>
+        <h4>Heading 4 - Minor Heading</h4>
+        <p>Body text using system fonts for optimal readability and performance. This is the default text style used throughout the application.</p>
+        <p style="font-family: var(--font-mono)">Monospace text for code: const example = 'hello world';</p>
+      </div>
+    </div>
+
+    <!-- Colors -->
+    <div class="component-section">
+      <h2>Color Palette</h2>
+      <div class="component-example">
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <div style="text-align: center;">
+            <div style="width: 100px; height: 100px; background-color: var(--color-primary); border-radius: 4px;"></div>
+            <p style="font-size: 12px; margin-top: 8px;">Primary</p>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 100px; height: 100px; background-color: var(--color-text); border-radius: 4px;"></div>
+            <p style="font-size: 12px; margin-top: 8px;">Text</p>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 100px; height: 100px; background-color: var(--color-background); border: 1px solid var(--color-border); border-radius: 4px;"></div>
+            <p style="font-size: 12px; margin-top: 8px;">Background</p>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 100px; height: 100px; background-color: var(--deletion-color); border-radius: 4px;"></div>
+            <p style="font-size: 12px; margin-top: 8px;">Deletion</p>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 100px; height: 100px; background-color: var(--insertion-color); border-radius: 4px;"></div>
+            <p style="font-size: 12px; margin-top: 8px;">Insertion</p>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 100px; height: 100px; background-color: var(--moved-color); border-radius: 4px;"></div>
+            <p style="font-size: 12px; margin-top: 8px;">Moved</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="component-section">
+      <h2>Buttons</h2>
+      <div class="component-example">
+        <h4>Primary Button</h4>
+        <button id="compareBtn" style="margin-bottom: 16px;">Primary Action</button>
+
+        <h4>Secondary Button</h4>
+        <button style="margin-bottom: 16px;">Secondary Action</button>
+
+        <h4>Button Group</h4>
+        <div class="actions-middle">
+          <button id="copyBtn">Copy</button>
+          <button>Download</button>
+          <button>Share</button>
+        </div>
+      </div>
+      <div class="code-block">&lt;button id="compareBtn"&gt;Primary Action&lt;/button&gt;
+&lt;button&gt;Secondary Action&lt;/button&gt;</div>
+    </div>
+
+    <!-- Form Elements -->
+    <div class="component-section">
+      <h2>Form Elements</h2>
+      <div class="component-example">
+        <h4>Text Input</h4>
+        <label>Label Text</label>
+        <input type="text" placeholder="Enter text..." style="margin-bottom: 24px;">
+
+        <h4>Textarea</h4>
+        <label>Description</label>
+        <textarea placeholder="Enter description..." style="margin-bottom: 24px;"></textarea>
+
+        <h4>Select Dropdown</h4>
+        <label>Choose Option</label>
+        <select>
+          <option>Option 1</option>
+          <option>Option 2</option>
+          <option>Option 3</option>
+        </select>
+      </div>
+      <div class="code-block">&lt;label&gt;Label Text&lt;/label&gt;
+&lt;input type="text" placeholder="Enter text..."&gt;</div>
+    </div>
+
+    <!-- Toggle Switch -->
+    <div class="component-section">
+      <h2>Toggle Switch</h2>
+      <div class="component-example">
+        <label class="toggle-switch">
+          <input type="checkbox">
+          <span class="toggle-slider"></span>
+          <span class="toggle-label">Enable this feature</span>
+        </label>
+        <br><br>
+        <label class="toggle-switch">
+          <input type="checkbox" checked>
+          <span class="toggle-slider"></span>
+          <span class="toggle-label">This one is enabled</span>
+        </label>
+      </div>
+      <div class="code-block">&lt;label class="toggle-switch"&gt;
+  &lt;input type="checkbox"&gt;
+  &lt;span class="toggle-slider"&gt;&lt;/span&gt;
+  &lt;span class="toggle-label"&gt;Enable feature&lt;/span&gt;
+&lt;/label&gt;</div>
+    </div>
+
+    <!-- File Upload -->
+    <div class="component-section">
+      <h2>File Upload Area</h2>
+      <div class="component-example">
+        <div class="textarea-container">
+          <div class="file-upload-hint">
+            <span class="hint-text">Drag file here or click Browse</span>
+            <button class="browse-btn">Browse</button>
+          </div>
+          <textarea placeholder="Or paste text here..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- File Info Display -->
+    <div class="component-section">
+      <h2>File Info Display</h2>
+      <div class="component-example">
+        <div class="file-info">
+          <span class="file-name">example-document.docx</span>
+          <button class="remove-file" title="Remove file">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M4 4l8 8m0-8l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diff Highlighting -->
+    <div class="component-section">
+      <h2>Diff Highlighting</h2>
+      <div class="component-example">
+        <p>This is <span class="deletion">deleted text</span> and this is <span class="insertion">inserted text</span>.</p>
+        <p>Text can be <span class="moved-from">moved from here</span> and <span class="moved-to">moved to here</span>.</p>
+      </div>
+      <div class="code-block">&lt;span class="deletion"&gt;deleted text&lt;/span&gt;
+&lt;span class="insertion"&gt;inserted text&lt;/span&gt;
+&lt;span class="moved-from"&gt;moved from&lt;/span&gt;
+&lt;span class="moved-to"&gt;moved to&lt;/span&gt;</div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="component-section">
+      <h2>Notifications</h2>
+      <div class="component-example">
+        <div class="notification show" style="position: relative; top: 0; right: 0; margin-bottom: 8px;">
+          Default notification message
+        </div>
+        <div class="notification show error" style="position: relative; top: 0; right: 0; margin-bottom: 8px;">
+          Error notification message
+        </div>
+        <div class="notification show warning" style="position: relative; top: 0; right: 0; margin-bottom: 8px;">
+          Warning notification message
+        </div>
+      </div>
+      <div class="code-block">&lt;div class="notification show"&gt;Message&lt;/div&gt;
+&lt;div class="notification show error"&gt;Error&lt;/div&gt;
+&lt;div class="notification show warning"&gt;Warning&lt;/div&gt;</div>
+    </div>
+
+    <!-- Advanced Options -->
+    <div class="component-section">
+      <h2>Advanced Options Panel</h2>
+      <div class="component-example">
+        <div class="advanced-options">
+          <h4>Settings</h4>
+          <div class="select-group">
+            <select>
+              <option>Output Format: HTML</option>
+              <option>Output Format: PDF</option>
+            </select>
+            <select>
+              <option>Font: Arial</option>
+              <option>Font: Helvetica</option>
+            </select>
+          </div>
+          <div class="toggle-group">
+            <label class="toggle-switch">
+              <input type="checkbox" checked>
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">Background shading</span>
+            </label>
+            <label class="toggle-switch">
+              <input type="checkbox">
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">Show legend</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spacing Scale -->
+    <div class="component-section">
+      <h2>Spacing Scale</h2>
+      <div class="component-example">
+        <p>All spacing uses a 4px base unit:</p>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px;">
+          <div style="background: var(--color-primary); width: 4px; height: 40px;"></div>
+          <div style="background: var(--color-primary); width: 8px; height: 40px;"></div>
+          <div style="background: var(--color-primary); width: 12px; height: 40px;"></div>
+          <div style="background: var(--color-primary); width: 16px; height: 40px;"></div>
+          <div style="background: var(--color-primary); width: 24px; height: 40px;"></div>
+          <div style="background: var(--color-primary); width: 32px; height: 40px;"></div>
+        </div>
+        <p style="font-size: 12px; margin-top: 8px;">4px, 8px, 12px, 16px, 24px, 32px</p>
+      </div>
+    </div>
+
+    <!-- Layout Examples -->
+    <div class="component-section">
+      <h2>Layout Patterns</h2>
+
+      <h4>Two-Column Layout</h4>
+      <div class="component-example">
+        <div class="text-inputs horizontal">
+          <div class="text-input">
+            <label>Column 1</label>
+            <textarea placeholder="Left column content"></textarea>
+          </div>
+          <div class="text-input">
+            <label>Column 2</label>
+            <textarea placeholder="Right column content"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <h4>Single Column Layout</h4>
+      <div class="component-example">
+        <div class="text-inputs">
+          <div class="text-input">
+            <label>Full Width Input</label>
+            <textarea placeholder="Full width content"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accessibility Features -->
+    <div class="component-section">
+      <h2>Accessibility Features</h2>
+      <div class="component-example">
+        <h4>Focus States</h4>
+        <p>Try tabbing through these elements to see focus outlines:</p>
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+          <button>Button 1</button>
+          <button id="btn2">Button 2</button>
+          <input type="text" placeholder="Input field" style="max-width: 200px;">
+        </div>
+
+        <h4 style="margin-top: 24px;">Keyboard Shortcuts</h4>
+        <p>Use <kbd style="background: #f5f5f5; padding: 2px 6px; border: 1px solid #ddd; border-radius: 3px; font-family: var(--font-mono); font-size: 12px;">Ctrl + Enter</kbd> to submit forms</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Make toggle switches functional
+    document.querySelectorAll('.toggle-switch input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        console.log('Toggle changed:', this.checked);
+      });
+    });
+  </script>
+</body>
+</html>

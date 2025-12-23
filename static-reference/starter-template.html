@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My App - kdiff Design System</title>
+  <link rel="stylesheet" href="kdiff-design-system.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <h1>My Application</h1>
+    <p style="color: var(--color-text); margin-bottom: 32px;">
+      A starter template using the kdiff design system
+    </p>
+
+    <!-- Main Content Area -->
+    <div class="component-section">
+      <h2>Getting Started</h2>
+
+      <!-- Form Example -->
+      <label>Your Name</label>
+      <input type="text" placeholder="Enter your name...">
+
+      <label style="margin-top: 16px;">Message</label>
+      <textarea placeholder="Enter your message..."></textarea>
+
+      <!-- Toggle Examples -->
+      <div class="toggle-group" style="margin-top: 16px;">
+        <label class="toggle-switch">
+          <input type="checkbox" id="option1" checked>
+          <span class="toggle-slider"></span>
+          <span class="toggle-label">Enable feature A</span>
+        </label>
+
+        <label class="toggle-switch">
+          <input type="checkbox" id="option2">
+          <span class="toggle-slider"></span>
+          <span class="toggle-label">Enable feature B</span>
+        </label>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="actions-middle" style="margin-top: 24px;">
+        <button id="compareBtn" onclick="handleSubmit()">Submit</button>
+        <button onclick="handleCancel()">Cancel</button>
+        <button onclick="showSettings()">Settings</button>
+      </div>
+    </div>
+
+    <!-- Advanced Options Panel -->
+    <div class="advanced-options" style="margin-top: 32px;">
+      <h3>Advanced Options</h3>
+
+      <div class="select-group">
+        <select id="formatSelect">
+          <option>Output Format: HTML</option>
+          <option>Output Format: PDF</option>
+          <option>Output Format: Markdown</option>
+        </select>
+
+        <select id="themeSelect">
+          <option>Theme: Light</option>
+          <option>Theme: Dark</option>
+        </select>
+      </div>
+
+      <div class="toggle-group">
+        <label class="toggle-switch">
+          <input type="checkbox" id="autoSave" checked>
+          <span class="toggle-slider"></span>
+          <span class="toggle-label">Auto-save</span>
+        </label>
+
+        <label class="toggle-switch">
+          <input type="checkbox" id="notifications">
+          <span class="toggle-slider"></span>
+          <span class="toggle-label">Notifications</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Output Area Example -->
+    <div class="output-content" style="margin-top: 32px; min-height: 200px;">
+      <h3>Output</h3>
+      <p>This is where your application's output would appear.</p>
+      <p>Text with <span class="insertion">insertions</span> and <span class="deletion">deletions</span>.</p>
+    </div>
+  </div>
+
+  <!-- Notification (initially hidden) -->
+  <div id="notification" class="notification"></div>
+
+  <!-- Modal Example (initially hidden) -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button class="close-modal-btn" onclick="closeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Your settings controls would go here.</p>
+
+        <label>Username</label>
+        <input type="text" placeholder="Enter username...">
+
+        <label style="margin-top: 16px;">Email</label>
+        <input type="email" placeholder="Enter email...">
+
+        <div class="actions-middle" style="margin-top: 24px;">
+          <button id="saveBtn" onclick="saveSettings()">Save Changes</button>
+          <button onclick="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Notification System
+    function showNotification(message, type = 'info') {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.className = `notification ${type}`;
+
+      setTimeout(() => notification.classList.add('show'), 10);
+      setTimeout(() => notification.classList.remove('show'), 3000);
+    }
+
+    // Modal Functions
+    function showSettings() {
+      document.getElementById('settingsModal').classList.add('show');
+    }
+
+    function closeModal() {
+      document.getElementById('settingsModal').classList.remove('show');
+    }
+
+    // Example Action Handlers
+    function handleSubmit() {
+      showNotification('Form submitted successfully!');
+      console.log('Submit clicked');
+    }
+
+    function handleCancel() {
+      showNotification('Action cancelled', 'warning');
+      console.log('Cancel clicked');
+    }
+
+    function saveSettings() {
+      showNotification('Settings saved!');
+      closeModal();
+    }
+
+    // Toggle event listeners
+    document.querySelectorAll('.toggle-switch input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const label = this.parentElement.querySelector('.toggle-label').textContent;
+        showNotification(`${label}: ${this.checked ? 'enabled' : 'disabled'}`);
+      });
+    });
+
+    // Select event listeners
+    document.getElementById('formatSelect').addEventListener('change', function() {
+      showNotification(`Format changed to: ${this.value}`);
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Show welcome notification on load
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        showNotification('Welcome! This starter template uses the kdiff design system.');
+      }, 500);
+    });
+  </script>
+</body>
+</html>
