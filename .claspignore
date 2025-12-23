@@ -1,0 +1,7 @@
+**/**
+!src/**
+.git/**
+node_modules/**
+css/**
+js/**
+static-reference/**

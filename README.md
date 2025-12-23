@@ -61,22 +61,57 @@ design-studio/
 
 ## Google Apps Script Deployment
 
-To deploy as a Google Apps Script web app:
+### Prerequisites
+- Node.js (for clasp CLI)
+- `npm install -g @google/clasp`
+- Enable Apps Script API: https://script.google.com/home/usersettings
 
-1. Create a new Google Apps Script project
-2. Copy the contents of `index.html` into a new HTML file
-3. Inline the CSS and JavaScript files
-4. Create a `Code.gs` with:
+### Setup Steps
 
-```javascript
-function doGet() {
-  return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle('Design Studio')
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
-}
-```
+1. **Authenticate clasp:**
+   ```bash
+   clasp login
+   ```
 
-5. Deploy as a web app
+2. **Create Apps Script project:**
+   ```bash
+   clasp create --title "Design Studio" --type standalone
+   ```
+   This updates `.clasp.json` with your script ID.
+
+3. **Build the bundled HTML:**
+   ```bash
+   ./build-apps-script.sh
+   ```
+
+4. **Push to Apps Script:**
+   ```bash
+   clasp push
+   ```
+
+5. **Create initial deployment:**
+   ```bash
+   clasp deploy --description "Initial deployment"
+   ```
+   Save the Deployment ID (starts with `AKfycb...`).
+
+6. **Access your web app:**
+   ```
+   https://script.google.com/macros/s/DEPLOYMENT_ID/exec
+   ```
+
+### Automatic Deployment via GitHub Actions
+
+1. Get your clasp credentials:
+   ```bash
+   cat ~/.clasprc.json
+   ```
+
+2. Add GitHub secrets at `https://github.com/YOUR_REPO/settings/secrets/actions`:
+   - `CLASPRC_JSON`: Contents of ~/.clasprc.json
+   - `DEPLOYMENT_ID`: Your deployment ID from step 5
+
+3. Push to main branch - GitHub Actions will automatically deploy
 
 ## Browser Support
 

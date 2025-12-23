@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Clasp credentials (contains OAuth tokens)
+.clasprc.json
+
 # Build output
 dist/
 build/

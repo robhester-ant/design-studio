@@ -1,0 +1,39 @@
+name: Deploy to Google Apps Script
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'css/**'
+      - 'js/**'
+      - 'index.html'
+      - 'src/**'
+      - 'build-apps-script.sh'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build bundled HTML
+        run: |
+          chmod +x build-apps-script.sh
+          ./build-apps-script.sh
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install clasp
+        run: npm install -g @google/clasp
+
+      - name: Authenticate with clasp
+        run: echo '${{ secrets.CLASPRC_JSON }}' > ~/.clasprc.json
+
+      - name: Push to Apps Script
+        run: clasp push --force
+
+      - name: Deploy (update existing deployment)
+        run: clasp deploy -i ${{ secrets.DEPLOYMENT_ID }} --description "Deploy ${{ github.sha }}"
